@@ -565,47 +565,6 @@ a{color:inherit!important}
       <p class="res-note-text">今ここに感じる感覚の喜びも、誰かとの深い絆も、世界の真理への静かな畏敬も、すべて本物の幸福です。今の地形を土台に、まだ踏み込んでいない幸福へと静かに広がっていくほど、人生の地図は豊かになっていきます。</p>
       <p class="res-note-text">この地図は、あなたの幸福の現在地を映す鏡であり、これからの可能性を示す羅針盤です。</p>
     </div>
-    <!-- 属性入力フォーム（自分の結果のみ表示） -->
-    <div id="attr-section" style="display:none;margin:24px 0;padding:20px;border:1px solid #1e1e1e;background:#141414">
-      <div style="font-size:9px;letter-spacing:.18em;color:#aaa;text-transform:uppercase;margin-bottom:10px">Data（任意）</div>
-      <p style="font-size:12px;color:#666;line-height:1.8;margin-bottom:14px;font-weight:300">年代・性別をお知らせいただくと、4,000人調査との比較分析に役立てられます。いつでも入力・送信できます。</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <div>
-          <label style="font-size:10px;color:#999;display:block;margin-bottom:5px">年代</label>
-          <select id="attr-age" style="width:100%;padding:8px 10px;border:1px solid #2a2a2a;font-size:13px;background:#1a1a1a;color:#e8e8e8;-webkit-appearance:auto">
-            <option value="">選択（任意）</option>
-            <option value="10s">10代</option>
-            <option value="20s">20代</option>
-            <option value="30s">30代</option>
-            <option value="40s">40代</option>
-            <option value="50s">50代</option>
-            <option value="60s">60代以上</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-size:10px;color:#999;display:block;margin-bottom:5px">性別</label>
-          <select id="attr-gender" style="width:100%;padding:8px 10px;border:1px solid #2a2a2a;font-size:13px;background:#1a1a1a;color:#e8e8e8;-webkit-appearance:auto">
-            <option value="">選択（任意）</option>
-            <option value="male">男性</option>
-            <option value="female">女性</option>
-            <option value="other">その他</option>
-            <option value="noanswer">回答しない</option>
-          </select>
-        </div>
-      </div>
-      <div id="attr-status" style="font-size:11px;color:#aaa;min-height:18px;margin-bottom:10px"></div>
-      <button onclick="submitAttrs()" style="background:#111;color:#fff;border:none;padding:10px 22px;font-size:12px;letter-spacing:.1em;cursor:pointer;font-family:'Noto Sans JP',sans-serif">送信する</button>
-    </div>
-    <!-- シェアURL（自分の結果のみ表示） -->
-    <div id="share-section" style="display:none;margin:24px 0">
-      <span class="sec" style="margin-top:0">この地図を保存・シェアする</span>
-      <div style="border:1px solid #222;border-top:2px solid #666;background:#141414;padding:20px 20px 18px">
-        <p style="font-size:14px;font-family:'Shippori Mincho',serif;font-weight:700;color:#ddd;margin-bottom:8px;line-height:1.5">このページにまた戻りたいときは、URLを保存してください。</p>
-        <p style="font-size:12px;color:#666;line-height:1.8;margin-bottom:16px;font-weight:300">友人に送れば、あなたの幸福地図を見てもらえます。相手も診断を受ければ、2つの地図を見比べられます。</p>
-        <div id="share-url-display" style="font-size:11px;color:#999;word-break:break-all;margin-bottom:14px;padding:12px;background:#111;border:1px solid #2a2a2a;min-height:36px;line-height:1.7"></div>
-        <button onclick="copyShareURL()" id="copy-btn" style="background:#ddd;color:#111;border:none;padding:11px 24px;font-size:12px;letter-spacing:.1em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-weight:500">URLをコピー</button>
-      </div>
-    </div>
     <!-- 友人向けバナー（他者の結果を見ているとき） -->
     <div id="friend-cta" style="display:none;margin:24px 0;padding:20px;background:#141414;border:1px solid #222;border-left:3px solid #aaa;text-align:center">
       <p style="font-size:13px;color:#555;margin-bottom:14px;line-height:1.8;font-weight:300">あなた自身の幸福地図を描いてみませんか？</p>
@@ -644,6 +603,15 @@ a{color:inherit!important}
       <div class="share-title">異なる幸福を生きる他者と</div>
       <div class="share-desc">この地図を誰かと見比べてみると、自分の「当たり前」が揺らぎます。人によって幸福の地形はまったく異なる——その事実が、自分の地図を新しく照らし直します。</div>
       <div class="share-desc" style="margin-top:12px;padding-top:12px;border-top:1px solid #1a1a1a;font-size:11px;color:#666">ご意見・ご感想：kuniakimat1&#64;gmail&#46;com</div>
+    </div>
+    <div id="share-section" style="display:none;margin:24px 0">
+      <span class="sec" style="margin-top:0">この地図を保存・シェアする</span>
+      <div style="border:1px solid #222;border-top:2px solid #666;background:#141414;padding:20px 20px 18px">
+        <p style="font-size:14px;font-family:'Shippori Mincho',serif;font-weight:700;color:#ddd;margin-bottom:8px;line-height:1.5">このページにまた戻りたいときは、URLを保存してください。</p>
+        <p style="font-size:12px;color:#666;line-height:1.8;margin-bottom:16px;font-weight:300">友人に送れば、あなたの幸福地図を見てもらえます。相手も診断を受ければ、2つの地図を見比べられます。</p>
+        <div id="share-url-display" style="font-size:11px;color:#999;word-break:break-all;margin-bottom:14px;padding:12px;background:#111;border:1px solid #2a2a2a;min-height:36px;line-height:1.7"></div>
+        <button onclick="copyShareURL()" id="copy-btn" style="background:#ddd;color:#111;border:none;padding:11px 24px;font-size:12px;letter-spacing:.1em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-weight:500">URLをコピー</button>
+      </div>
     </div>
     <div class="foot"><button class="btn-s" onclick="showScreen('pg-land');window.scrollTo(0,0)">← トップへ戻る</button><button class="btn-s" id="btn-restart" onclick="restart()">最初から</button></div>
   </div>
@@ -762,33 +730,6 @@ function _fallbackCopy(text){
   document.body.removeChild(ta);
 }
 
-/* ── 属性送信 ──────────────────────────────────────── */
-function submitAttrs(){
-  var age=document.getElementById('attr-age')?document.getElementById('attr-age').value:'';
-  var gender=document.getElementById('attr-gender')?document.getElementById('attr-gender').value:'';
-  var status=document.getElementById('attr-status');
-  if(!age&&!gender){if(status)status.textContent='年代または性別を選択してください';return;}
-  sendAttrUpdate(age,gender);
-  if(status)status.textContent='送信しました。ありがとうございます。';
-  var btn=document.querySelector('#attr-section button');
-  if(btn)btn.disabled=true;
-}
-function sendAttrUpdate(age,gender){
-  try{
-    var fields={uuid:myUUID,age_group:age,gender:gender,action:'attr_update'};
-    var ifr=document.createElement('iframe');
-    ifr.name='gas_attr_'+Date.now();
-    ifr.style.cssText='display:none;width:0;height:0;border:0;position:absolute';
-    document.body.appendChild(ifr);
-    var form=document.createElement('form');
-    form.method='GET';
-    form.action='https://script.google.com/macros/s/AKfycbwibPeeD6kCM1Nnltlyc410ZGFZ5UqUoNj94l6ZweWshxXjEhOkEaB_V3N8aQUe8XI/exec';
-    form.target=ifr.name;form.style.display='none';
-    for(var k in fields){var inp=document.createElement('input');inp.type='hidden';inp.name=k;inp.value=fields[k];form.appendChild(inp);}
-    document.body.appendChild(form);form.submit();
-    setTimeout(function(){try{document.body.removeChild(form);document.body.removeChild(ifr);}catch(e){}},6000);
-  }catch(e){}
-}
 
 
 var KL=['自','他','共','理','合'];
@@ -949,7 +890,7 @@ function debugLoad(){
   showResults();
 }
 
-(function(){
+window.addEventListener('DOMContentLoaded',function(){
   var qs=window.location.search;
   var m=qs.match(/[?&]s=([0-9,]+)/);
   if(!m)return;
@@ -960,7 +901,7 @@ function debugLoad(){
   userName='';
   quizPages=[ALL_CELLS.slice(0,5),ALL_CELLS.slice(5,10),ALL_CELLS.slice(10,15),ALL_CELLS.slice(15,20),ALL_CELLS.slice(20,25)];
   showResults();
-})();
+});
 
 function startQuiz(){
   userName=document.getElementById('user-name').value.trim();
@@ -1231,7 +1172,6 @@ function showResults(){
     if(fc)fc.style.display='block';
     var ss=document.getElementById('share-section');
     if(ss)ss.style.display='none';
-    var as=document.getElementById('attr-section');
     if(as)as.style.display='none';
     // データ送信しない（他者の結果を見ているだけ）
   }else{
@@ -1242,9 +1182,6 @@ function showResults(){
       var urlEl=document.getElementById('share-url-display');
       if(urlEl)urlEl.textContent=buildShareURL();
     }
-    // 属性入力フォーム表示
-    var attrEl=document.getElementById('attr-section');
-    if(attrEl)attrEl.style.display='block';
     // 友人CTAは非表示
     var friendEl=document.getElementById('friend-cta');
     if(friendEl)friendEl.style.display='none';
@@ -1258,7 +1195,6 @@ function restart(){
   document.getElementById('prog').style.width='0%';
   document.getElementById('start-btn').disabled=false;
   // 属性フォームをリセット
-  var as=document.getElementById('attr-section');
   if(as)as.style.display='none';
   var ss=document.getElementById('share-section');
   if(ss)ss.style.display='none';
@@ -1266,12 +1202,8 @@ function restart(){
   if(fc)fc.style.display='none';
   var attrStatus=document.getElementById('attr-status');
   if(attrStatus)attrStatus.textContent='';
-  var ageEl=document.getElementById('attr-age');
   if(ageEl)ageEl.value='';
-  var genderEl=document.getElementById('attr-gender');
   if(genderEl)genderEl.value='';
-  var attrBtn=document.querySelector('#attr-section button');
-  if(attrBtn)attrBtn.disabled=false;
   showScreen('pg-land');
 }
 
