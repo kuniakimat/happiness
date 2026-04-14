@@ -685,9 +685,9 @@ window.addEventListener('DOMContentLoaded',function(){
     // 他者のUUIDで開かれた場合：トップに通知バーを出す
     var bar=document.createElement('div');
     bar.style.cssText='position:fixed;top:0;left:0;right:0;z-index:999;background:#111;color:#fff;text-align:center;padding:10px 16px;font-size:12px;letter-spacing:.08em;font-family:"Noto Sans JP",sans-serif';
-    bar.innerHTML='<span style="opacity:.7">他の人の幸福地図を閲覧中</span>　<button onclick="startOwnQuiz()" style="background:#ddd;color:#e8e8e8;border:none;padding:4px 14px;font-size:11px;cursor:pointer;font-family:inherit;margin-left:12px">自分の地図を作る →</button>';
+    bar.innerHTML='<span style="opacity:.7">他の人の幸福地図を閲覧中</span>　<button onclick="startOwnQuiz()" style="background:#e8e8e8;color:#111;border:none;padding:4px 14px;font-size:11px;cursor:pointer;font-family:inherit;margin-left:12px;font-weight:500">自分の地図を作る →</button>';
     document.body.insertBefore(bar,document.body.firstChild);
-    document.getElementById('prog').style.marginTop='40px';
+    document.getElementById('prog').style.marginTop='44px';var resWrap=document.querySelector('#pg-res .wrap');if(resWrap)resWrap.style.paddingTop='52px';
   }
 });
 
