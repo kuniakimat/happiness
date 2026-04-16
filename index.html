@@ -931,10 +931,10 @@ function renderScreen(idx){
     itemsHtml+='<div class="q-item"><div class="q-item-row"><div class="q-item-k">'+cell.kanji+'</div><div class="q-item-text">'+cell.text+'</div></div>'
       +'<div class="scale-wrap" id="sw-'+uid+'">'
       +'<button class="scale-btn'+(s===1?' v1':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',1)">まったく<br>感じない</button>'
-      +'<button class="scale-btn'+(s===2?' v2':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',2)">ほとんど<br>感じない</button>'
-      +'<button class="scale-btn'+(s===3?' v3':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',3)">少し<br>感じる</button>'
+      +'<button class="scale-btn'+(s===2?' v2':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',2)">あまり<br>感じない</button>'
+      +'<button class="scale-btn'+(s===3?' v3':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',3)">ある程度<br>感じる</button>'
       +'<button class="scale-btn'+(s===4?' v4':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',4)">かなり<br>感じる</button>'
-      +'<button class="scale-btn'+(s===5?' v5':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',5)">幸福の核心</button>'
+      +'<button class="scale-btn'+(s===5?' v5':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',5)">とても強く<br>感じる</button>'
       +'</div></div>';
   }
   document.getElementById('q-body').innerHTML='<div class="scr-header"><div class="scr-progress"><span class="scr-prog-label">Q'+(idx+1)+' / 5</span><div class="scr-segs">'+segs+'</div></div><span class="scr-q-num">問 '+(idx*5+1)+' 〜 '+(idx*5+5)+'　/ 25</span></div><div class="q-items">'+itemsHtml+'</div>';
