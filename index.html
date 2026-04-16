@@ -14,6 +14,9 @@ html{background:#0d0d0d!important}body{background:#0d0d0d!important;color:#e8e8e
 .scr{display:none}.scr.on{display:block}
 #prog{position:fixed;top:0;left:0;height:2px;background:#111;transition:width .4s;z-index:100}
 #pg-land{padding:40px 0}
+.beta-banner{display:flex;align-items:center;gap:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-left:3px solid #888;padding:10px 16px;margin-bottom:24px}
+.beta-tag{font-size:10px;letter-spacing:.18em;color:#aaa;background:#333;padding:2px 8px;border-radius:2px;text-transform:uppercase;flex-shrink:0;font-weight:500}
+.beta-text{font-size:12px;color:#888;font-weight:300;line-height:1.6}
 .eyebrow{font-size:11px;letter-spacing:.18em;color:#aaa;text-transform:uppercase;margin-bottom:14px}
 .land-title{font-family:'Shippori Mincho',serif;font-size:clamp(30px,7vw,48px);font-weight:700;line-height:1.2;margin-bottom:18px}
 .land-div{width:28px;height:1px;background:#ddd;margin-bottom:18px}
@@ -47,6 +50,7 @@ html{background:#0d0d0d!important}body{background:#0d0d0d!important;color:#e8e8e
 .scale-btn.v2{background:#d8d8d8;border-color:#ccc;color:#333}
 .scale-btn.v3{background:#b0b0b0;border-color:#999;color:#fff}
 .scale-btn.v4{background:#111;border-color:#e8e8e8;color:#fff}
+.scale-btn.v5{background:#e8e8e8;border-color:#e8e8e8;color:#111}
 .scale-btn.warn{border-color:#e08000 !important}
 .q-nav{display:flex;gap:8px;padding-top:24px}
 .q-warn{font-size:12px;color:#e08000;padding-top:10px;display:none}
@@ -237,6 +241,7 @@ a{color:inherit!important}
 .scale-btn.v2{background:#2e2e2e!important;border-color:#3a3a3a!important;color:#bbb!important}
 .scale-btn.v3{background:#555!important;border-color:#aaa!important;color:#e8e8e8!important}
 .scale-btn.v4{background:#ddd!important;border-color:#ddd!important;color:#111!important}
+.scale-btn.v5{background:#fff!important;border-color:#fff!important;color:#111!important}
 .q-nav{border-top-color:#1a1a1a!important}
 /* 結果 */
 .res-badge{background:#ddd!important;color:#111!important}
@@ -486,6 +491,10 @@ a{color:inherit!important}
 
 <div id="pg-land" class="scr on">
   <div class="wrap">
+    <div class="beta-banner">
+      <span class="beta-tag">Beta</span>
+      <span class="beta-text">これは友人向けのベータ版です（v2026.04.16）。診断ロジック・言語は継続的に改善中。感想はお気軽に。</span>
+    </div>
     <p class="eyebrow">幸福の地図</p>
     <h1 class="land-title">あなたの幸福は<br>どこにある？</h1>
     <div class="land-div"></div>
@@ -564,6 +573,7 @@ a{color:inherit!important}
       <p class="res-note-text">人生には、25種類もの幸福を体験できるポテンシャルがあります。</p>
       <p class="res-note-text">今ここに感じる感覚の喜びも、誰かとの深い絆も、世界の真理への静かな畏敬も、すべて本物の幸福です。今の地形を土台に、まだ踏み込んでいない幸福へと静かに広がっていくほど、人生の地図は豊かになっていきます。</p>
       <p class="res-note-text">この地図は、あなたの幸福の現在地を映す鏡であり、これからの可能性を示す羅針盤です。</p>
+      <p style="font-size:11px;color:#555;margin-top:12px;letter-spacing:.04em">友人向けベータ版 v2026.04.16 — 診断ロジック・言語は継続的に改善中</p>
     </div>
     <!-- 友人向けバナー（他者の結果を見ているとき） -->
     <div id="friend-cta" style="display:none;margin:24px 0;padding:20px;background:#141414;border:1px solid #222;border-left:3px solid #aaa;text-align:center">
@@ -872,7 +882,7 @@ var scores=[];
 var quizPages=[];
 var curScreen=0;
 var userName='';
-var ACTIVE=2.8;
+var ACTIVE=3.8;
 
 function initScores(){scores=[];for(var i=0;i<5;i++)scores.push([0,0,0,0,0]);}
 initScores();
@@ -882,7 +892,7 @@ function buildQuizPages(){var sh=shuffle(ALL_CELLS);quizPages=[];for(var p=0;p<5
 function showScreen(id){var els=document.querySelectorAll('.scr');for(var i=0;i<els.length;i++)els[i].classList.remove('on');document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
 
 function debugLoad(){
-  var preset=[[2,4,4,2,2],[3,4,4,3,2],[3,3,4,3,2],[3,3,4,2,2],[2,4,3,2,2]];
+  var preset=[[2,5,5,2,2],[4,5,5,3,2],[4,4,5,3,2],[4,4,5,2,2],[2,5,4,2,2]];
   initScores();
   for(var ki=0;ki<5;ki++)for(var ji=0;ji<5;ji++)scores[ki][ji]=preset[ki][ji];
   userName='松村';
@@ -920,10 +930,11 @@ function renderScreen(idx){
     var cell=page[q];var s=scores[cell.ki][cell.ji];var uid=cell.ki+'-'+cell.ji;
     itemsHtml+='<div class="q-item"><div class="q-item-row"><div class="q-item-k">'+cell.kanji+'</div><div class="q-item-text">'+cell.text+'</div></div>'
       +'<div class="scale-wrap" id="sw-'+uid+'">'
-      +'<button class="scale-btn'+(s===1?' v1':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',1)">幸福を<br>感じない</button>'
-      +'<button class="scale-btn'+(s===2?' v2':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',2)">少し感じる</button>'
-      +'<button class="scale-btn'+(s===3?' v3':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',3)">かなり感じる</button>'
-      +'<button class="scale-btn'+(s===4?' v4':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',4)">幸福の核心</button>'
+      +'<button class="scale-btn'+(s===1?' v1':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',1)">まったく<br>感じない</button>'
+      +'<button class="scale-btn'+(s===2?' v2':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',2)">ほとんど<br>感じない</button>'
+      +'<button class="scale-btn'+(s===3?' v3':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',3)">少し<br>感じる</button>'
+      +'<button class="scale-btn'+(s===4?' v4':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',4)">かなり<br>感じる</button>'
+      +'<button class="scale-btn'+(s===5?' v5':'')+'" onclick="setScore('+cell.ki+','+cell.ji+',5)">幸福の核心</button>'
       +'</div></div>';
   }
   document.getElementById('q-body').innerHTML='<div class="scr-header"><div class="scr-progress"><span class="scr-prog-label">Q'+(idx+1)+' / 5</span><div class="scr-segs">'+segs+'</div></div><span class="scr-q-num">問 '+(idx*5+1)+' 〜 '+(idx*5+5)+'　/ 25</span></div><div class="q-items">'+itemsHtml+'</div>';
@@ -937,7 +948,7 @@ function renderScreen(idx){
 function setScore(ki,ji,val){
   scores[ki][ji]=val;
   var sw=document.getElementById('sw-'+ki+'-'+ji);if(!sw)return;
-  var btns=sw.querySelectorAll('.scale-btn');for(var i=0;i<btns.length;i++)btns[i].className='scale-btn'+(i+1===val?' v'+val:'');
+  var btns=sw.querySelectorAll('.scale-btn');for(var i=0;i<btns.length;i++)btns[i].className='scale-btn'+(i+1===val?' v'+(i+1):'');
   document.getElementById('q-warn').style.display='none';
 }
 
@@ -952,7 +963,7 @@ function validateScreen(idx){
 function nextScreen(){if(!validateScreen(curScreen))return;if(curScreen<4)renderScreen(curScreen+1);}
 function prevScreen(){if(curScreen>0)renderScreen(curScreen-1);}
 
-function getLitCells(){var n=0;for(var ki=0;ki<5;ki++)for(var ji=0;ji<5;ji++)if(scores[ki][ji]>=3)n++;return n;}
+function getLitCells(){var n=0;for(var ki=0;ki<5;ki++)for(var ji=0;ji<5;ji++)if(scores[ki][ji]>=4)n++;return n;}
 function getKAvg(){var a=[];for(var ki=0;ki<5;ki++){var s=0;for(var ji=0;ji<5;ji++)s+=scores[ki][ji];a.push(s/5);}return a;}
 function getJAvg(){var a=[];for(var ji=0;ji<5;ji++){var s=0;for(var ki=0;ki<5;ki++)s+=scores[ki][ji];a.push(s/5);}return a;}
 function getDomK(){var kAvg=getKAvg();var d=0;for(var k=1;k<5;k++)if(kAvg[k]>kAvg[d])d=k;return d;}
@@ -961,14 +972,15 @@ var DARK_MODE=true;
 function cellColor(s){
   if(DARK_MODE){
     if(s<=1)return'#111111';
-    if(s===2)return'#252525';
-    if(s===3)return'#4a4a4a';
+    if(s===2)return'#1e1e1e';
+    if(s===3)return'#333333';
+    if(s===4)return'#686868';
     return'#d8d8d8';
   }
-  if(s<=1)return'#ffffff';if(s===2)return'#d8d8d8';if(s===3)return'#b0b0b0';return'#555555';
+  if(s<=1)return'#ffffff';if(s===2)return'#e8e8e8';if(s===3)return'#c8c8c8';if(s===4)return'#888888';return'#333333';
 }
 function coreCell(){var mx=0,cki=0,cji=0;for(var ki=0;ki<5;ki++)for(var ji=0;ji<5;ji++)if(scores[ki][ji]>mx){mx=scores[ki][ji];cki=ki;cji=ji;}return{ki:cki,ji:cji};}
-function blankCell(){var activeK={},activeJ={};for(var ki=0;ki<5;ki++)for(var ji=0;ji<5;ji++)if(scores[ki][ji]>=3){activeK[ki]=true;activeJ[ji]=true;}var mn=9999,bki=0,bji=4;for(var k in activeK){for(var j in activeJ){if(scores[+k][+j]<mn){mn=scores[+k][+j];bki=+k;bji=+j;}}}return{ki:bki,ji:bji};}
+function blankCell(){var activeK={},activeJ={};for(var ki=0;ki<5;ki++)for(var ji=0;ji<5;ji++)if(scores[ki][ji]>=4){activeK[ki]=true;activeJ[ji]=true;}var mn=9999,bki=0,bji=4;for(var k in activeK){for(var j in activeJ){if(scores[+k][+j]<mn){mn=scores[+k][+j];bki=+k;bji=+j;}}}return{ki:bki,ji:bji};}
 
 function determineType(){
   var kAvg=getKAvg();var jAvg=getJAvg();var lit=getLitCells();
@@ -976,10 +988,10 @@ function determineType(){
   for(var i=0;i<5;i++){if(kAvg[i]>=ACTIVE)kActive++;if(jAvg[i]>=ACTIVE)jActive++;}
   var domK=getDomK();
   var spread=kActive+jActive;
-  if(lit>=18||(lit>=14&&kActive>=4&&jActive>=3))return 7;
-  if((kActive>=3&&jActive>=3)||(lit>=12&&spread>=5))return 6;
-  if((domK===1||domK===2)&&lit>=6&&spread>=3)return 5;
-  if((domK===0||domK===4)&&lit>=5&&spread>=3)return 4;
+  if(lit>=16||(lit>=12&&kActive>=4&&jActive>=4))return 7;
+  if((kActive>=3&&jActive>=3)||(lit>=10&&spread>=5))return 6;
+  if((domK===1||domK===2)&&lit>=5&&spread>=3)return 5;
+  if((domK===0||domK===4)&&lit>=4&&spread>=3)return 4;
   if(domK===3)return 3;
   if(domK===1||domK===2)return 2;
   return 1;
@@ -1001,10 +1013,10 @@ function buildMatrix(){
       var td=document.createElement('td');td.className='mx-td';
       var inner=document.createElement('div');inner.className='mx-inner';
       var cont=document.createElement('div');cont.className='mx-cont';cont.style.background=cellColor(s);
-      var borderClr=DARK_MODE?(s>=4?'1px solid #aaa':s>=3?'1px solid #3a3a3a':s>=2?'1px solid #252525':'1px solid #1a1a1a'):(s>=4?'1px solid #333':s>=3?'1px solid #999':s>=2?'1px solid #bbb':'1px solid #ccc');
+      var borderClr=DARK_MODE?(s>=5?'1px solid #aaa':s>=4?'1px solid #555':s>=3?'1px solid #2e2e2e':s>=2?'1px solid #252525':'1px solid #1a1a1a'):(s>=5?'1px solid #333':s>=4?'1px solid #666':s>=3?'1px solid #999':s>=2?'1px solid #bbb':'1px solid #ccc');
       cont.style.border=borderClr;
       if(isCore){cont.style.outline=DARK_MODE?'2px solid #d8d8d8':'2px solid #111';cont.style.outlineOffset='-2px';}
-      var kEl=document.createElement('span');kEl.className='mx-k';kEl.style.color=DARK_MODE?(s>=4?'#111':'#ccc'):(s>=4?'#fff':'#111');kEl.textContent=CELL_K[ki+'-'+ji2]||'';
+      var kEl=document.createElement('span');kEl.className='mx-k';kEl.style.color=DARK_MODE?(s>=5?'#111':'#ccc'):(s>=5?'#fff':'#111');kEl.textContent=CELL_K[ki+'-'+ji2]||'';
       var enEl=document.createElement('span');enEl.className='mx-en';enEl.style.color=DARK_MODE?(s>=4?'rgba(0,0,0,0.4)':'#444'):(s>=4?'rgba(255,255,255,0.6)':'#111');enEl.style.opacity=s>=4?'1':'0.4';enEl.textContent=CELL_EN[ki+'-'+ji2]||'';
       cont.appendChild(kEl);cont.appendChild(enEl);inner.appendChild(cont);td.appendChild(inner);row.appendChild(td);
     }
@@ -1015,13 +1027,13 @@ function buildMatrix(){
 
 function buildSummary(){
   var lit=getLitCells();var domK=getDomK();var domJ=getDomJ();
-  var spread=lit<=3?'特定の幸福に深く根ざした、焦点の鋭い構造です。':lit<=8?'核心の幸福はすでに見えており、拡張の途上にあります。':lit<=15?'多面的な幸福の地形が育っています。':'ほぼ全域に幸福が広がっています。';
+  var spread=lit<=2?'特定の幸福に深く根ざした、焦点の鋭い構造です。':lit<=7?'核心の幸福はすでに見えており、拡張の途上にあります。':lit<=13?'多面的な幸福の地形が育っています。':'ほぼ全域に幸福が広がっています。';
   document.getElementById('summary-block').innerHTML='<div class="summary-block"><div class="summary-num"><span class="summary-big">'+lit+'</span><span class="summary-denom"> / 25マス 活性化</span></div><p class="summary-text">'+spread+'空間的には<strong>「'+K_SHORT_DESC[domK]+'」</strong>に、時間的には<strong>「'+J_SHORT_DESC[domJ]+'」</strong>に重心があります。</p></div>';
 }
 
 function buildProfile(name){
   var kAvg=getKAvg();var jAvg=getJAvg();var domK=getDomK();var domJ=getDomJ();
-  function pct(v){return Math.round((v-1)/3*100);}
+  function pct(v){return Math.round((v-1)/4*100);}
   var kRows='';
   for(var ri=0;ri<KL_ORDER.length;ri++){var ki=KL_ORDER[ri];var d=(ki===domK);kRows+='<div class="pbar-row"><div class="pbar-lbl-wrap"><span class="pbar-lbl'+(d?' dom':'')+'">'+KL[ki]+'</span><span class="pbar-lbl-desc'+(d?' dom':'')+'">'+K_SHORT_DESC[ki]+'</span></div><div class="pbar-track"><div class="pbar-fill'+(d?' dom':'')+'" style="width:'+pct(kAvg[ki])+'%"></div></div><div class="pbar-val'+(d?' dom':'')+'">'+kAvg[ki].toFixed(1)+'</div></div>';}
   var jRows='';
@@ -1032,11 +1044,12 @@ function buildProfile(name){
 function buildHypothesis(){
   var domK=getDomK();var domJ=getDomJ();var lit=getLitCells();
   var kh=K_HYP[domK];var jh=J_HYP[domJ];
+  var name=userName||'あなた';
   var nl2=userName?userName+'さんの':'あなたの';
   var para1=nl2+'幸福の重心は、<strong>'+kh.gravity+'</strong>にあります。'+jh.desc;
   var para2=kh.background;
-  var para3=kh.strength+'<br><br>'+jh.trade+'ただ、この偏りは欠如ではありません。'+name+'の人生のエネルギー配分の結果です。';
-  var para4=lit<=5?'幸福の地形は今、一点に深く集中しています。焦点の鋭さはそれ自体が強みです。ただ、その一点だけを守り続けると、他の幸福のチャンネルは閉じたままになります。':lit<=12?'幸福の地形は、確かな核を持ちながら、少しずつ拡張されつつあります。重心を保ちながら、未踏の幸福へ静かに足を踏み入れていく途上です。':'幸福の地形は、すでに多面的に広がっています。次は、広さの中に深さを重ねていく時期かもしれません。';
+  var para3=kh.strength+'<br><br>'+jh.trade+'これは不足ではなく、選択の結果です。';
+  var para4=lit<=4?'幸福の地形は今、一点に深く集中しています。その鋭さは強みです。ただ、その一点だけを守り続けると、他のチャンネルは閉じたまま——地図は広がらない。':lit<=10?'地形は確かな核を持ちながら、少しずつ拡張されつつあります。重心を保ちながら、未踏の幸福へ静かに踏み出す途上です。':'幸福の地形は、すでに多面的に広がっています。次は、広さの中に深さを重ねる時期かもしれません。';
   para4+='<br><br>'+kh.next;
   document.getElementById('hypothesis-block').innerHTML='<div class="hyp-block"><p class="hyp-para">'+para1+'</p><p class="hyp-para">'+para2+'</p><p class="hyp-para">'+para3+'</p><p class="hyp-para">'+para4+'</p></div>';
 }
@@ -1224,8 +1237,8 @@ var TYPE_DETAILS={
    demo:{gender:'男性 41% / 女性 59%',age:'30〜49歳が中心（全体の55%）',area:'都市・地方均等に分布',happy:'5.9',note:'ボランティア・PTA・地域活動参加率が全タイプ最高。「誰かに必要とされている」実感が幸福の核心になっている傾向。'}},
   6:{lead:'空間・時間の複数の軸にわたってセンサーが同時に開いた状態。多面的な幸福体験が日常的になっている。広く開いたセンサーが生きる豊かさそのものになっている。',profile:'仕事・家族・趣味・知的好奇心のすべてを楽しんでいる人。',age:'40〜60代に多い。人生経験を積みながらセンサーが開いてきた層。',body:'自×瞬（17.4%）・合×進（16.3%）・他×回（10.2%）など、広く複数のセルに分布。広福層の中で「自×瞬（今の自分を楽しむ）」を重心に持つ人の幸福スコアは8.42と突出して高い。',growthText:'広さと深さを統合することで全福型へ。今この瞬間を「より深く」味わうことが、次の次元への扉になる。',growthAction:'すでに開いているセンサーの一つを、もっと深く味わう時間を作る。',phil:'アリストテレス（エウダイモニア・人間の卓越性の多面的発揮）、ルネサンス人文主義（万能人の理想）、ミル（幸福の質的多様性）。「人間の可能性を多方向に開くことが善き生だ」という系譜。',icons:'糸井重里——コピーライター・農業・ほぼ日手帳と、複数の領域を同時に生きる。オードリー・タン——テクノロジー・詩・哲学・政策を横断する台湾のデジタル大臣。アニメ「もののけ姫」のアシタカ——人間の側にも森の側にも立てる複眼の視点を持つ。',
    demo:{gender:'男性 49% / 女性 51%',age:'40〜64歳が中心（全体の57%）',area:'都市圏やや多め',happy:'7.1',note:'趣味の数が平均3.2（全タイプ最多）。仕事の充実度と家庭の充実度が同時に高い「両立型」が多い。'}},
-  7:{lead:'ほぼ全てのセンサーが開放されている最上位層（全体の5.5%）。どの次元でも幸福を感じられる多面的な感受性の持ち主。調査で幸福スコア最高水準を記録。',profile:'人生のあらゆる瞬間に豊かさを見つけられる人。年収・地位に関係なく分布。',age:'全世代に分布。「幸福は状況ではなく感受性で決まる」ことを体現している層。',body:'自×瞬（27.1%）・合×進（28.9%）が2大重心——今を楽しみながら前に進んでいる。年収の高さとは無関係（平均272万円）。センサーの開き方が幸福を決めることをこのデータは示している。',growthText:'この感受性を持つことはそれ自体が価値だが、この地図を誰かと共に探索することが、次の役割かもしれない。幸福は伝播する。',growthAction:'自分の幸福の地形を、大切な人と静かに話し合ってみる。',phil:'老子（万物との一体・無為自然）、仏陀（八正道・すべてに仏性）、スピノザ（神即自然・あらゆるものへの愛）。「あるがままの全体に参加していることが、すでに幸福だ」という系譜。',icons:'アニメ「千と千尋の神隠し」の千尋——異世界のどんな体験にも幸福の種を見出して成長する。吉本ばなな——食事・旅・日常のあらゆる場面に幸福を書き続ける作家。ダライ・ラマ——どんな状況でも笑いを忘れない、制約の中の全的な喜び。',
-   demo:{gender:'男性 48% / 女性 52%',age:'全世代に均等分布（最も偏りが少ない）',area:'都市・地方・郊外に均等',happy:'7.9',note:'年収平均272万円（全タイプ中最低水準）。幸福は収入・地位ではなく感受性の開き方で決まることを、このタイプが最も明確に示している。'}}
+  7:{lead:'ほぼ全てのセンサーが開放されている最上位層（全体の5.5%）。どの次元でも幸福を感じられる多面的な感受性の持ち主。調査で幸福スコア最高水準を記録。',profile:'人生のあらゆる瞬間に豊かさを見つけられる人。年収・地位に関係なく分布。',age:'全世代に分布。「幸福は状況ではなく感受性で決まる」ことを体現している層。',body:'自×瞬（27.1%）・合×進（28.9%）が2大重心——今を楽しみながら前に進んでいる。年収の高低とは無関係に分布（全タイプ中で最も収入水準は低め）。センサーの開き方が幸福を決めることをこのデータは示している。',growthText:'この感受性を持つことはそれ自体が価値だが、この地図を誰かと共に探索することが、次の役割かもしれない。幸福は伝播する。',growthAction:'自分の幸福の地形を、大切な人と静かに話し合ってみる。',phil:'老子（万物との一体・無為自然）、仏陀（八正道・すべてに仏性）、スピノザ（神即自然・あらゆるものへの愛）。「あるがままの全体に参加していることが、すでに幸福だ」という系譜。',icons:'アニメ「千と千尋の神隠し」の千尋——異世界のどんな体験にも幸福の種を見出して成長する。吉本ばなな——食事・旅・日常のあらゆる場面に幸福を書き続ける作家。ダライ・ラマ——どんな状況でも笑いを忘れない、制約の中の全的な喜び。',
+   demo:{gender:'男性 48% / 女性 52%',age:'全世代に均等分布（最も偏りが少ない）',area:'都市・地方・郊外に均等',happy:'7.9',note:'収入水準は全タイプ中で相対的に低め。幸福は収入・地位ではなく感受性の開き方で決まることを、このタイプが最も明確に示している。'}}
 };
 
 function numToCircle(n){var c=['①','②','③','④','⑤','⑥','⑦'];return c[n-1]||n;}
