@@ -149,22 +149,32 @@ function parseRows(rows){
   }));
 }
 
-async function fetchData(){
-  try{
-    document.getElementById('timer').textContent='更新中...';
-    const res=await fetch(`${GAS}?action=recent&n=30`);
-    const json=await res.json();
+function fetchData(){
+  document.getElementById('timer').textContent='更新中...';
+  const cb='cb'+Date.now();
+  window[cb]=function(json){
+    delete window[cb];
+    const el=document.getElementById('jsonp-script');
+    if(el)el.remove();
     const fresh=json.length>prevCount;
     people=parseRows(json).reverse();
     prevCount=json.length;
     renderAll(fresh);
     countdown=30;
     document.getElementById('status').style.display='none';
-  }catch(e){
-    document.getElementById('status').textContent='データ取得エラー。GASのaction=recentが有効か確認してください。';
+    document.getElementById('timer').textContent='更新しました';
+    setTimeout(()=>{document.getElementById('timer').textContent='30秒後に自動更新';},1500);
+  };
+  const s=document.createElement('script');
+  s.id='jsonp-script';
+  s.onerror=function(){
+    document.getElementById('status').textContent='データ取得エラー。GASが再デプロイされているか確認してください。';
     document.getElementById('status').className='status err';
+    document.getElementById('status').style.display='block';
     countdown=30;
-  }
+  };
+  s.src=GAS+'?action=recent&n=30&callback='+cb;
+  document.head.appendChild(s);
 }
 
 function renderAll(flash){
