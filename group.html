@@ -99,7 +99,7 @@ html,body{background:#0d0d0d;color:#e8e8e8;font-family:'Noto Sans JP',sans-serif
 </div>
 
 <script>
-const SHEET_CSV='https://docs.google.com/spreadsheets/d/1lm1hyfSjF_hUQkmSmHHoL8s8FTCdJfQgpnqR117jhkg/export?format=csv&gid=0';
+const GAS_READ='https://script.google.com/macros/s/AKfycby7GTKyuFmAh427pm8_As7oJ2tTzjY6XNbG72MHpxkcF--PNatX27WwxRu8xtqTfAHx/exec';
 const KL=['自','他','共','理','合'];
 const JL=['瞬','進','頂','回','久'];
 const KANJI=[['快','得','誇','保','足'],['触','与','結','恩','慈'],['祭','開','栄','役','和'],['戯','学','顕','整','悟'],['溶','創','恍','巡','愛']];
@@ -135,20 +135,9 @@ function bigMap(sc){
   return h+'</div>';
 }
 
-function parseCSV(text){
-  return text.trim().split('\n').slice(0).map(line=>{
-    // handle quoted CSV fields
-    const cols=[];let cur='',inQ=false;
-    for(let i=0;i<line.length;i++){
-      const c=line[i];
-      if(c==='"'){inQ=!inQ;}
-      else if(c===','&&!inQ){cols.push(cur.trim());cur='';}
-      else cur+=c;
-    }
-    cols.push(cur.trim());
-    return cols;
-  }).filter(r=>r[8]&&r[8].includes('-')).map(r=>({
-    date:r[0]||'',
+function parseRows(rows){
+  return rows.filter(r=>r[8]&&String(r[8]).includes('-')).map(r=>({
+    date:r[0]?String(r[0]):'',
     name:r[1]||'匿名',
     typeNum:parseInt(r[2])||0,
     typeName:r[3]||'不明',
@@ -156,33 +145,36 @@ function parseCSV(text){
     coreCell:r[5]||'—',
     domK:r[6]||'—',
     domJ:r[7]||'—',
-    scores:r[8]||''
+    scores:String(r[8])
   }));
 }
 
-async function fetchData(){
-  try{
-    document.getElementById('timer').textContent='更新中...';
-    const res=await fetch(SHEET_CSV+'&t='+Date.now());
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const text=await res.text();
-    const parsed=parseCSV(text).reverse();
-    const fresh=parsed.length>prevCount;
-    people=parsed;
-    prevCount=parsed.length;
-    renderAll(fresh);
+function fetchData(){
+  document.getElementById('timer').textContent='更新中...';
+  const cb='cb'+Date.now();
+  window[cb]=function(rows){
+    delete window[cb];
+    const el=document.getElementById('_gs');if(el)el.remove();
+    people=parseRows(rows).reverse();
+    prevCount=people.length;
+    renderAll(false);
     countdown=30;
     document.getElementById('status').style.display='none';
     document.getElementById('timer').textContent='更新しました';
     setTimeout(()=>{document.getElementById('timer').textContent='30秒後に自動更新';},1500);
-  }catch(err){
-    console.error(err);
-    document.getElementById('status').innerHTML='データ取得エラー。スプレッドシートの共有設定を確認してください。<br><small style="color:#666">「共有」→「リンクを知っている全員」→「閲覧者」</small>';
+  };
+  const s=document.createElement('script');
+  s.id='_gs';
+  s.onerror=function(){
+    document.getElementById('status').innerHTML='データ取得エラー（GAS確認）';
     document.getElementById('status').className='status err';
     document.getElementById('status').style.display='block';
     countdown=30;
-  }
+  };
+  s.src=GAS_READ+'?n=30&callback='+cb;
+  document.head.appendChild(s);
 }
+
 
 function renderAll(flash){
   if(!people.length){
@@ -240,6 +232,24 @@ function sel(i){
   document.querySelectorAll('.pcard').forEach((c,idx)=>c.classList.toggle('sel',idx===selected));
   if(selected!==null)renderPanel(people[selected]);
   else document.getElementById('panel').innerHTML='';
+}
+
+function loadPaste(){
+  const raw=document.getElementById('paste-input');
+  if(!raw)return;
+  const text=raw.value.trim();
+  if(!text)return;
+  // Tab-separated from spreadsheet copy
+  const parsed=text.split('\n').filter(l=>l.includes('\t')).map(line=>{
+    const c=line.split('\t');
+    return{date:c[0]||'',name:c[1]||'匿名',typeNum:parseInt(c[2])||0,typeName:c[3]||'不明',
+      lit:parseInt(c[4])||0,coreCell:c[5]||'—',domK:c[6]||'—',domJ:c[7]||'—',scores:c[8]||''};
+  }).filter(r=>r.scores&&r.scores.includes('-')).reverse();
+  if(!parsed.length){alert('スコアデータが見つかりません');return;}
+  people=parsed;
+  prevCount=parsed.length;
+  document.getElementById('status').style.display='none';
+  renderAll(false);
 }
 
 setInterval(()=>{
